@@ -3,14 +3,17 @@ import Result from "./components/Result";
 import MathOperations from "./components/MathOperations";
 import Functions from "./components/Functions";
 import Numbers from "./components/Numbers";
+import words from "lodash.words";
 import "./App.css";
 
 const App = () => {
   const [texto, setTexto] = useState("");
+  const items = words(texto, /[^-^+^*^/]+/g);
+  const valueDisplay = items.length > 0 ? items[items.length - 1] : 0;
   console.log("Renderizacion de app");
   return (
     <main className="react-calculator">
-      <Result value={texto} />
+      <Result value={valueDisplay} />
       <Numbers
         onClickNumber={(number) => {
           console.log("number ", number);
@@ -18,7 +21,7 @@ const App = () => {
         }}
       ></Numbers>
       <Functions
-        onContentClear={(clear) => {
+        onContentCleur={(clear) => {
           console.log("delete all ", clear);
           setTexto("");
         }}
@@ -37,7 +40,7 @@ const App = () => {
         }}
         onClikcEqual={(equal) => {
           console.log("equal: ", equal);
-          setTexto(texto + equal);
+          setTexto(eval(texto));
         }}
       ></MathOperations>
     </main>
